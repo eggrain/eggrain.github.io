@@ -1,14 +1,18 @@
 ---
 layout: post
-title: "How I developed and deployed a new Razor Pages app in a few hours"
-date: 2025-11-25 06:35:00 -0800
+title: "What I want to put into a template of a Razor Pages app"
+date: 2025-11-27 06:35:00 -0800
 categories: ["programming", "c#"]
-permalink: /initial-work-on-health
+permalink: /what-i-want-in-a-razor-pages-app-template
 emoji: 🖤
 mathjax: false
 ---
 
-This last weekend I started a new project, `health`, and deployed it with about one feature developed. This blog post describes the steps I followed to develop the minimal viable product and get it deployed. Starting with a new Razor Pages app created with `dotnet new`, first I removed the included front end assets in `wwwroot` and instead added Bootstrap and Sass as NPM packages with a `package.json` script to build the Sass-compiled Bootstrap to `wwwroot`. Next, I added ASP.NET Core Identity, Entity Framework Core with SQLite, and some basic pages for login, register, and logout. After developing a feature, I wrote a GitHub action to deploy the app to my VM, and then did a bit of work on the VM with Apache, systemd, and file permissions to finish up.
+I've developed a few different apps with Razor Pages now. From my experiences, I've gravitated toward a specific monolithic architecture, set of dependencies, and continuous deployment approach that works for me as a solo developer working on hobby projects.
+
+I start with `dotnet new razor -o appname`, remove the included frontend assets in `wwwroot`, add NPM, Bootstrap, Sass, a Sass `site.scss`, a `package.json` script to compile Bootstrap to `wwwroot`, ASP.NET Core Identity, Entity Framework Core (with SQLite),`dotnet-ef` to scaffold migrations, application classes derived from `DbContext`, `IdentityUser`, `PageModel`, `Program.cs` changes, a GitHub action to deploy the app to a VM, where it will run as a `systemd` service, served at a subdomain with Apache virtual hosts and secured with Let's Encrypt.
+
+This last weekend I started a new project, `health`, and deployed it with about one feature developed. This blog post describes the steps I followed to develop the minimal viable product and get it deployed. (While this initial work that I've done several times is fresh in my mind, I want to take some notes to document before I make this into an app template.)
 
 # New Razor Pages app with Sass-compiled Bootstrap
 
@@ -188,7 +192,7 @@ Db db = scope.ServiceProvider.GetRequiredService<Db>();
 db.Database.Migrate();
 {% endhighlight %}
 
-so for development, starting the app will create `health.db`.
+so starting the app will create `health.db`.
 
 Finally, pages can be added for login, register, and logout, which are just custom Razor Pages endpoints that use ASP.NET Core Identity services `UserManager` and `SignInManager` (see [this commit](https://github.com/eggrain/health/commit/48ed0bbd295611c0d6b7d7011a661fcf8940f998#diff-317b0c806de83ddb10a08a02a869e38eace4196db7b115dc9771ac805217a1a8) for the examples). Nav links for those pages were added to the layout as well with some conditional rendering logic:
 
@@ -319,3 +323,24 @@ With this initial work, a single weight-tracking feature was developed: a card i
 
 # Deployment
 
+Namecheap A record: Host is the subdomain string, Value is the VM's IP address. After the app runs as a `systemd` service,
+
+{% highlight bash %}
+[Unit]
+Description=appname
+
+[Service]
+Type=simple
+WorkingDirectory=/home/.../bin/Release/net8.0/linux-arm64/publish
+User=username
+ExecStart=/home/.../bin/Release/net8.0/linux-arm64/publish/health
+Environment=ASPNETCORE_URLS="http://0.0.0.0:5777"
+Environment=health_DATABASE_PATH="Data Source=/.../health/health.db"
+
+[Install]
+WantedBy=multi-user.target
+{% endhighlight %}
+
+The folder may need to be set with the right permissions as the containing folder may belong to `root`.
+
+Apache: reverse proxy to the app listening on the specified port by the environment variable in the service file. Once the site is served over HTTP, the command to get the Let's Encrypt certificate is run, and the HTTP Apache `.conf` for the site is edited to redirect to HTTPS.
