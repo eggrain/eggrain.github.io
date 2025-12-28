@@ -74,7 +74,7 @@ This is an example of the "option A" approach in [Sass (Bootstrap docs)](https:/
 // Then add additional custom code here
 {% endhighlight %}
 
-The additional custom code here is from the original `wwwroot/css/site.css` that was deleted. After adding the script to build Bootstrap from `node_modules` using Sass to `wwwroot`, this is the `package.json`:
+The additional custom code here is from the original `wwwroot/css/site.css` that was deleted. After adding the script to build Bootstrap from `node_modules` using Sass to `wwwroot`, this is the `package.json` (also with scripts to copy the Bootstrap JavaScript assets-`<script src="~/js/bootstrap.bundle.min.js"></script>` is inside the layout `</body>`):
 
 {% highlight json %}
 {
@@ -82,7 +82,10 @@ The additional custom code here is from the original `wwwroot/css/site.css` that
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build:css": "sass scss/site.scss wwwroot/css/site.css"
+    "build:css": "sass scss/site.scss wwwroot/css/site.css",
+    "build-bootstrap-js-win": "copy \"node_modules\\bootstrap\\dist\\js\\bootstrap.bundle.min.js\" \"wwwroot\\js\\bootstrap.bundle.min.js\"",
+    "build-bootstrap-js-linux": "cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js wwwroot/js/bootstrap.bundle.min.js",
+    "build-assets-linux": "npm run build-bootstrap-css && npm run build-bootstrap-js-linux"
   },
   "keywords": [],
   "author": "",
@@ -194,7 +197,7 @@ db.Database.Migrate();
 
 so starting the app will create `health.db`.
 
-Finally, pages can be added for login, register, and logout, which are just custom Razor Pages endpoints that use ASP.NET Core Identity services `UserManager` and `SignInManager` (see [this commit](https://github.com/eggrain/health/commit/48ed0bbd295611c0d6b7d7011a661fcf8940f998#diff-317b0c806de83ddb10a08a02a869e38eace4196db7b115dc9771ac805217a1a8) for the examples). Nav links for those pages were added to the layout as well with some conditional rendering logic:
+Finally, pages can be added for login, register, and logout, which are just custom Razor Pages endpoints that use ASP.NET Core Identity services `UserManager` and `SignInManager` (see [this commit](https://github.com/eggrain/health/commit/48ed0bbd295611c0d6b7d7011a661fcf8940f998#diff-317b0c806de83ddb10a08a02a869e38eace4196db7b115dc9771ac805217a1a8) for the examples). Nav links for those pages were added to the layout as well with some conditional rendering logic (in the Bootstrap navbar):
 
 {% highlight html %}{% raw %}
 <ul class="navbar-nav flex-grow-1">
