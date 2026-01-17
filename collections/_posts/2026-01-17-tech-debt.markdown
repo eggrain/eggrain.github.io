@@ -1,0 +1,29 @@
+---
+layout: post
+title: "Technical debt has caught up to me"
+date: 2026-01-16 01:35:00 +0000
+categories: cloud
+permalink: /technicaldebtonoooooooooooooooooooooooooooooooo
+emoji: 🖤
+mathjax: false
+---
+
+In 2024 I moved from Massachusetts to Georgia. Now in January 2026, I am trying to save money.
+
+In anticipation of moving, before I moved to Georgia, I migrated one website--Anki Books--that was being hosted on an old college thinkpad running Ubuntu to an Azure Virtual Machine which was successful. I moved from Massachusetts to Georgia to Washington in one month and my VM was serving a couple always available websites with backends and databases.
+
+Today I have a 4 Gb RAM Azure Virtual Machine and a 64 Gb managed disk with a few app SQLite databases, thousands of zipped Anki SQLite databases, a PostgreSQL cluster, and images on disk. The VM serves a couple React apps, four ASP.NET Core apps, and a Ruby on Rails app. React apps are just static assets, Ruby is horrible for memory and cannot be salvaged on my budget, and each of the four ASP.NET Core apps is its own `dotnet` process which might use 100-300 Mb of memory.
+
+Not only that, but my main website in this setup is a portfolio website with links to all of these projects, which are all hosted as subdomains of the same domain name... 
+
+# My plan
+
+First I will setup DNS records for my domain, specifically for the subdomains that prior were serving Anki Books (Rails), a weekend Razor Pages app `health`, and Larder (ASP.NET Core Web API). After verifying no links are broken, I will shut down those websites, and probably edit the main website.
+
+That will give me a much simpler architecture of just two React apps and two ASP.NET Core Razor Pages apps. With no production Anki Books, the data can be dumped into a tar file and the PostgreSQL cluster can be obliterated to save memory. With all that done, I would try resizing the VM to a 1 Gb RAM one.
+
+If that can run on the smaller VM, great, and I could also look into attaching a smaller managed disk to the VM to save some money there.
+
+If needed, it may be possible to refactor the architecture of the two remaining Razor Pages apps that are hopefully running on the 1 Gb machine into an architecture where they are libraries being used in one `dotnet` process but still hosting different apps at the subdomains. Having only two ASP.NET Core apps instead of 4 simplifies getting that refactor into production greatly.
+
+As far as Anki Books, it may be possible to develop an ASP.NET Core app with EF Core scaffolding model classes around an SQLite database with the Ruby on Rails Anki Books data later but it would need to be after refactoring the other apps into the one ASP.NET Core host, and supposing it was possible to resize the VM to the cheaper one. If that is ultimately not successful, simply freezing everything would be my next plan. 
