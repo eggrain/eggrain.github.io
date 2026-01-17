@@ -85,7 +85,7 @@ The additional custom code here is from the original `wwwroot/css/site.css` that
     "build:css": "sass scss/site.scss wwwroot/css/site.css",
     "build-bootstrap-js-win": "copy \"node_modules\\bootstrap\\dist\\js\\bootstrap.bundle.min.js\" \"wwwroot\\js\\bootstrap.bundle.min.js\"",
     "build-bootstrap-js-linux": "cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js wwwroot/js/bootstrap.bundle.min.js",
-    "build-assets-linux": "npm run build-bootstrap-css && npm run build-bootstrap-js-linux"
+    "build-assets-linux": "npm run build:css && npm run build-bootstrap-js-linux"
   },
   "keywords": [],
   "author": "",
