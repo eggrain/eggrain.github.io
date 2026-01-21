@@ -18,7 +18,7 @@ Not only that, but my main website in this setup is a portfolio website with lin
 
 # My plan
 
-First I will setup DNS records for my domain, specifically for the subdomains that prior were serving Anki Books (Rails), a weekend Razor Pages app `health`, and Larder (ASP.NET Core Web API). After verifying no links are broken, I will shut down those websites, and probably edit the main website.
+First I will setup DNS records for my domain, specifically for the subdomains that prior were serving Anki Books (Rails), a weekend Razor Pages app `health`, and Larder (ASP.NET Core Web API). (1/21 edit: it turned out to be easier to keep the subdomains pointed to the VM and have Apache redirect requests to them.) After verifying no links are broken, I will shut down those websites, and probably edit the main website.
 
 That will give me a much simpler architecture of just two React apps and two ASP.NET Core Razor Pages apps. With no production Anki Books, the data can be dumped into a tar file and the PostgreSQL cluster can be obliterated to save memory. With all that done, I would try resizing the VM to a 1 Gb RAM one.
 
