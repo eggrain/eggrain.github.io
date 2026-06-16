@@ -1,4 +1,4 @@
-# eggrain.blog
+# eggrain.github.io
 
 This repository has the markdown assets of my personal website.
 
