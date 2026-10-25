@@ -14,6 +14,8 @@ Good things this time: Browned the onion in the BBQ chicken pizza
 
 Where it can be improved: Kneading the dough more
 
+Other notes: BBQ chicken pizza was with ground chicken, cheesy hamburger was ground turkey
+
 ![Initial mix](assets/pizzas/cheesy-hamburger-1/PXL_20261024_192041588.jpg)
 
 ![Cutting board](assets/pizzas/cheesy-hamburger-1/PXL_20261024_192044604.jpg)
