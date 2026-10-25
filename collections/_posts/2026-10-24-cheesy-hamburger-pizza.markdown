@@ -12,9 +12,9 @@ Today I cooked 2 more pizzas from 500 g bread flour. With the last of my italian
 
 Good things this time: Browned the onion in the BBQ chicken pizza
 
-Where it can be improved: Kneading the dough more
+Where it can be improved: Kneading the dough more, could have seasoned the ground turkey more
 
-Other notes: BBQ chicken pizza was with ground chicken, cheesy hamburger was ground turkey
+Other notes: BBQ chicken pizza was with ground chicken, cheesy hamburger was ground turkey, I also added 1/3 of the onion to the hamburger helper with the ground turkey, and didn't bother to weigh seasonings 
 
 ![Initial mix](assets/pizzas/cheesy-hamburger-1/PXL_20261024_192041588.jpg)
 
